@@ -8,15 +8,21 @@ export default class BookList extends Component {
   };
 
   render() {
-      const {books, changeShelf}  = this.props
+    const { books, changeShelf } = this.props;
+    console.log(books);
     return (
       <ol className="books-grid">
-          {
-              books.map(book => (
-               <li key ={book.id}><Book   book = {book} changeShelf = {changeShelf} /></li> 
-              ))
-          }
-      
+        {books &&
+          books.map(
+            (book) =>
+              book.imageLinks.thumbnail &&
+              book.authors && (
+                <li key={book.id}>
+                  {" "}
+                  <Book book={book} changeShelf={changeShelf} />
+                </li>
+              )
+          )}
       </ol>
     );
   }

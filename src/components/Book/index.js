@@ -25,7 +25,9 @@ export default class Book extends Component {
           <ShelfControl book = {book} changeShelf = {changeShelf}/>
         </div>
         <div className="book-title">{title}</div>
-        <Authors authors={authors} />
+       {
+           authors && <Authors authors={authors} />
+       } 
       </div>
     );
   }
