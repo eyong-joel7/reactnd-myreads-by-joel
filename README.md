@@ -1,10 +1,9 @@
 # MyReads Project by JOEL EMOH
 
 
+## INSTALLATION AND LAUCHING PROCEDURE
 
-## iNSTALLATION AND LAUCHING PROCEDURE
-
-To get started developing right away:
+To run this app on your development server:
 
 * install all project dependencies with `npm install`
 * start the development server with `npm start`
@@ -40,8 +39,11 @@ To get started developing right away:
     
 
 ```
+## Deno site Hosted on Netlify
+You can view the project hosted at https://myreadbyjoel.netlify.app/
 
-Remember that good React design practice is to create new JS files for each component and use import/require statements to include them where they are needed.
+
+
 
 ## Backend Server
 
