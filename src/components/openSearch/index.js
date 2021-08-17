@@ -1,10 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-export const OpenSearch = () => {
+export const OpenSearch = ({books}) => {
     return (
         <div className="open-search">
-        <Link to = '/search'>
+        <Link to = {{
+            pathname: '/search',
+            state: {
+                books: books
+            }}
+        } >
           Add a book
         </Link>
       </div>

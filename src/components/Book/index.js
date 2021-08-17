@@ -1,10 +1,10 @@
-import React, { Component } from "react";
+import React from "react";
 import { Authors } from "../bookAuthors";
 import ShelfControl from "../shelfChanger";
 
-export default class Book extends Component {
-  render() {
-    const { book, changeShelf } = this.props;
+ const Book = (props) => {
+  
+    const { book, changeShelf} = props;
     const {
       authors,
       imageLinks: { thumbnail },
@@ -22,7 +22,7 @@ export default class Book extends Component {
               backgroundImage: `url(${thumbnail})`,
             }}
           />
-          <ShelfControl book = {book} changeShelf = {changeShelf}/>
+          <ShelfControl book = {book} changeShelf = {changeShelf} />
         </div>
         <div className="book-title">{title}</div>
        {
@@ -30,5 +30,7 @@ export default class Book extends Component {
        } 
       </div>
     );
-  }
+  
 }
+
+export default  Book;

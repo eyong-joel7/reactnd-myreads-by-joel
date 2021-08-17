@@ -1,8 +1,7 @@
 import React from "react";
-// import * as BooksAPI from './BooksAPI'
 import "./App.css";
 import * as booksApi from "./BooksAPI";
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 
 import { OpenSearch } from "./components/openSearch";
 import Shelf from "./components/Shelf";
@@ -11,29 +10,30 @@ class BooksApp extends React.Component {
   state = {
     books: [],
   };
-static propsTypes = {
-  changeShelf: PropTypes.func.isRequired
-}
+  static propsTypes = {
+    changeShelf: PropTypes.func.isRequired,
+  };
   componentDidMount() {
     booksApi.getAll().then((books) => {
       this.setState(() => ({
         books,
       }));
     });
-    
   }
 
-  changeShelf = (book, shelf) =>{
-    // console.log(book, shelf)
-   booksApi.update(book, shelf).then(res =>  booksApi.getAll().then(books => this.setState({
-    books
-  }, ()=> console.log(`updating state`)))
-  )
-};
-  
- 
+  changeShelf = (book, shelf) => {
+    booksApi.update(book, shelf).then((res) =>
+      booksApi.getAll().then((books) =>
+        this.setState(
+          {
+            books,
+          }
+        )
+      )
+    );
+  };
+
   render() {
-    console.log(this.state.books)
     const { books } = this.state;
     const currentlyReadingBooks =
       books && books.filter((book) => book.shelf === "currentlyReading");
@@ -51,14 +51,22 @@ static propsTypes = {
             <div>
               <Shelf
                 books={currentlyReadingBooks}
-                shelfName={"Currently Reading"} 
-                changeShelf = {this.changeShelf}
+                shelfName={"Currently Reading"}
+                changeShelf={this.changeShelf}
               />
-              <Shelf books={wantToReadBooks} shelfName={"Want To Read"} changeShelf = {this.changeShelf} />
-              <Shelf books={readBooks} shelfName={"Read"} changeShelf = {this.changeShelf} />
+              <Shelf
+                books={wantToReadBooks}
+                shelfName={"Want To Read"}
+                changeShelf={this.changeShelf}
+              />
+              <Shelf
+                books={readBooks}
+                shelfName={"Read"}
+                changeShelf={this.changeShelf}
+              />
             </div>
           </div>
-          <OpenSearch />
+          <OpenSearch books = {books}/>
         </div>
       </div>
     );

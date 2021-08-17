@@ -1,20 +1,15 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import Book from "../Book";
 
-export default class BookList extends Component {
-  static propTypes = {
-    books: PropTypes.array.isRequired,
-  };
-
-  render() {
-    const { books, changeShelf } = this.props;
-    console.log(books);
+const BookList  = (props) => {
+    const { books, changeShelf } = props;
     return (
       <ol className="books-grid">
         {books &&
           books.map(
             (book) =>
+              book.imageLinks &&
               book.imageLinks.thumbnail &&
               book.authors && (
                 <li key={book.id}>
@@ -25,5 +20,10 @@ export default class BookList extends Component {
           )}
       </ol>
     );
-  }
+
 }
+BookList.propTypes = {
+  books: PropTypes.array.isRequired,
+  changeShelf: PropTypes.func.isRequired
+};
+export default BookList 

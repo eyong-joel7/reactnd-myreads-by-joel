@@ -1,29 +1,38 @@
 import React, { Component } from "react";
 
 class ShelfControl extends Component {
- state = {
-     selected:this.props.book.shelf,
- }
+  state = {
+    selected: "none",
+  };
 
- updateHandler = (e)=>{
-this.setState( {
-    selected: e.target.value
-}, ()=> this.shelfChanger(this.props.book, this.state.selected));
-}
+  updateHandler = (e) => {
+      const alertText = this.props.book.shelf ? 'will be moved to ' : 'wiil be added to'
+     
+    this.setState(
+      {
+        selected: e.target.value,
+      },
+      () => {
+        this.shelfChanger(this.props.book, this.state.selected);
+        
+        alert(`${this.props.book.title} ${alertText} ${this.state.selected}`);
+      }
+    );
+  };
 
-shelfChanger = (book, selected) =>{
-    console.log(selected)
-        this.props.changeShelf(book, selected)
-    }
-    
+  shelfChanger = (book, selected) => {
+    this.props.changeShelf(book, selected);
+  };
 
   render() {
-      console.log(this.state.selected)
     return (
       <div className="book-shelf-changer">
-        <select value = {this.state.selected} onChange = {this.updateHandler}>
-          <option value="move" disabled>
-            Move to...
+        <select
+          value={this.props.book.shelf || this.state.selected}
+          onChange={this.updateHandler}
+        >
+          <option value= {this.props.book.shelf || this.state.selected!=='none' ? 'Move' : 'Add' } disabled>
+            {this.props.book.shelf || this.state.selected!=='none' ? 'Move to...' : 'Add to...' }
           </option>
           <option value="currentlyReading">Currently Reading</option>
           <option value="wantToRead">Want to Read</option>

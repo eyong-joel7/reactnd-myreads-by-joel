@@ -4,33 +4,58 @@ import BookList from "../BookList";
 import * as booksApi from "../../BooksAPI";
 export default class Search extends Component {
   state = {
-    books: [],
+    books: this.props.location.state.books,
     queriedBooks: [],
     query: "",
   };
 
-  componentDidMount() {
-    booksApi.getAll().then((books) => {
-      this.setState(
-        () => ({
-          books: books,
-        }),
-        () => console.log(`BOOKS ADDED`)
-      );
-    });
-  }
+  updateShelf = () => {
+    const { books, queriedBooks } = this.state;
+    if (Array.isArray(books) && Array.isArray(queriedBooks)) {
+      for (let oldBook = 0; oldBook < books.length; oldBook++) {
+        for (let newBook = 0; newBook < queriedBooks.length; newBook++) {
+          if (queriedBooks[newBook].id === books[oldBook].id) {
+            const shelf = books[oldBook].shelf;
+            queriedBooks[newBook].shelf = shelf;
+            this.setState(() => ({
+              queriedBooks: queriedBooks,
+            }));
+          }
+        }
+      }
+    }
+  };
+
+  changeShelf = (book, shelf) => {
+    booksApi.update(book, shelf).then((res) =>
+      booksApi.getAll().then((books) =>
+        this.setState(
+          {
+            books,
+          }
+        )
+      )
+    );
+  };
   changeHandler = (event) => {
-    this.setState({
+    this.setState(
+      {
         query: event.target.value,
-      }, ()=>booksApi.search(this.state.query).then((books) =>
-      this.setState(() => ({
-        queriedBooks: books,
-      }))
-    ) );
- 
+      },
+      () =>
+        booksApi.search(this.state.query.trim()).then((books) =>
+          this.setState(
+            () => ({
+              queriedBooks: books,
+            }),
+            () => this.updateShelf()
+          )
+        )
+    );
   };
   render() {
     const { query, queriedBooks } = this.state;
+// console.log(this.props.state.location.books)
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -48,7 +73,7 @@ export default class Search extends Component {
         </div>
         <div className="search-books-results">
           {queriedBooks && Array.isArray(queriedBooks) && (
-            <BookList books={queriedBooks} />
+            <BookList books={queriedBooks} changeShelf={this.changeShelf} />
           )}
         </div>
       </div>
